@@ -68,6 +68,55 @@ tabBtns.forEach(btn => {
 });
 
 /* ═══════════════════════════════════════════════
+   HERO — AUTO-ROTATING SLIDES
+═══════════════════════════════════════════════ */
+(function () {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.hero-dot');
+  if (!slides.length) return;
+
+  let current = 0;
+  let timer;
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  function next() { goTo(current + 1); }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, 5000);
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+  });
+
+  startTimer();
+})();
+
+/* ═══════════════════════════════════════════════
+   NEWSLETTER FORM
+═══════════════════════════════════════════════ */
+const newsletterForm = document.getElementById('newsletter-form');
+if (newsletterForm) {
+  newsletterForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const input = this.querySelector('input[type="email"]');
+    if (!input.value.trim()) { input.classList.add('error'); return; }
+    const btn = this.querySelector('button');
+    btn.textContent = 'Zapisano!';
+    btn.disabled = true;
+    setTimeout(() => { btn.textContent = 'Zapisz'; btn.disabled = false; this.reset(); }, 3000);
+  });
+}
+
+/* ═══════════════════════════════════════════════
    FORM VALIDATION
 ═══════════════════════════════════════════════ */
 function validateForm(form) {
