@@ -232,9 +232,9 @@ function scoreClass(v){ if(v>=8)return'score-hot'; if(v>=6)return'score-warm'; i
 function fmt(n){ return n ? Number(n).toLocaleString('pl-PL') : '—'; }
 function fmtDate(s){ if(!s)return'—'; return new Date(s).toLocaleDateString('pl-PL',{day:'2-digit',month:'short',year:'numeric'}); }
 
-async function fetchData() {
+async function fetchData(attempt = 1) {
   try {
-    console.log('[dashboard] fetchData started');
+    console.log(`[dashboard] fetchData attempt ${attempt}`);
     const token = await window.GrandsAuth.getAccessToken();
     console.log('[dashboard] token available:', !!token);
 
@@ -249,10 +249,23 @@ async function fetchData() {
     if (!r.ok) throw new Error(await r.text());
     allData = await r.json();
     console.log('[dashboard] loaded', allData.length, 'listings');
+
+    // If empty result on first attempt, retry (token might not be ready yet)
+    if (allData.length === 0 && attempt < 3) {
+      console.log('[dashboard] Empty result, retrying in 500ms...');
+      setTimeout(() => fetchData(attempt + 1), 500);
+      return;
+    }
+
     apply();
   } catch(e) {
     console.error('[dashboard] fetchData error:', e);
-    document.getElementById('grid').innerHTML = `<div class="state-block">❌ Błąd połączenia:<br><small>${e.message}</small></div>`;
+    if (attempt < 3) {
+      console.log('[dashboard] Error, retrying in 500ms...');
+      setTimeout(() => fetchData(attempt + 1), 500);
+    } else {
+      document.getElementById('grid').innerHTML = `<div class="state-block">❌ Błąd połączenia:<br><small>${e.message}</small></div>`;
+    }
   }
 }
 
@@ -398,8 +411,8 @@ function wireUI() {
     if (!user) return;
     console.log('[dashboard] User authenticated, initializing...');
     wireUI();
-    // Small delay to ensure session is fully established
-    setTimeout(() => fetchData(), 200);
+    // Small delay to ensure token is available, fetchData will retry if needed
+    setTimeout(() => fetchData(), 100);
   } catch (e) {
     console.error('Init error:', e);
     document.getElementById('auth-gate').innerHTML = '<div class="auth-card"><p style="color:red">Błąd: ' + e.message + '</p></div>';
