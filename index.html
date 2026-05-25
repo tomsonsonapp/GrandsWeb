@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grands Developments — Deweloper i Studio Wnętrz · Warszawa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .99h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      <a href="tel:+48220000000">+48 22 000 00 00</a>
+    </span>
+    <span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <a href="mailto:kontakt@grandsdevelopment.pl">kontakt@grandsdevelopment.pl</a>
+    </span>
+    <span>
+      <a href="admin/" title="Logowanie administratora" aria-label="Logowanie administratora">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </a>
+    </span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="nav-container">
+    <a href="#" class="brand">GRANDS DEVELOPMENTS</a>
+    <nav class="desktop-nav">
+      <a href="#o-nas">O nas</a>
+      <a href="#projekty-deweloperskie">Projekty</a>
+      <a href="#projekty-wnetrz">Wnętrza</a>
+      <a href="#skup-mieszkan">Skup mieszkań</a>
+      <a href="#konsultacje">Konsultacje</a>
+      <a href="#aktualna-oferta">Oferta</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Otwórz menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-overlay" id="mobile-overlay">
+    <nav class="mobile-nav">
+      <a href="#o-nas" class="mobile-link">O nas</a>
+      <a href="#projekty-deweloperskie" class="mobile-link">Projekty</a>
+      <a href="#projekty-wnetrz" class="mobile-link">Wnętrza</a>
+      <a href="#skup-mieszkan" class="mobile-link">Skup mieszkań</a>
+      <a href="#konsultacje" class="mobile-link">Konsultacje</a>
+      <a href="#aktualna-oferta" class="mobile-link">Oferta</a>
+      <a href="#kontakt" class="mobile-link">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-slides">
+    <div class="hero-slide active">
+      <p class="hero-overline">WARSZAWA · POLSKA</p>
+      <h1>Tworzymy przestrzenie.<br>Inwestujemy w przyszłość.</h1>
+      <a href="#projekty-deweloperskie" class="btn btn-light">Zobacz projekty</a>
+    </div>
+    <div class="hero-slide">
+      <p class="hero-overline">WARSZAWA · POLSKA</p>
+      <h1>Projektujemy eleganckie<br>budynki i wnętrza.</h1>
+      <a href="#projekty-wnetrz" class="btn btn-light">Studio wnętrz</a>
+    </div>
+    <div class="hero-slide">
+      <p class="hero-overline">WARSZAWA · POLSKA</p>
+      <h1>Nowoczesne inwestycje<br>w sercu Warszawy.</h1>
+      <a href="#aktualna-oferta" class="btn btn-light">Aktualna oferta</a>
+    </div>
+  </div>
+  <div class="hero-dots" id="hero-dots">
+    <button class="hero-dot active" aria-label="Slajd 1"></button>
+    <button class="hero-dot" aria-label="Slajd 2"></button>
+    <button class="hero-dot" aria-label="Slajd 3"></button>
+  </div>
+  <div class="scroll-indicator"><div class="scroll-arrow"></div></div>
+</section>
+
+<!-- GREETING / O NAS -->
+<section id="o-nas">
+  <div class="container greeting-grid">
+    <div class="greeting-left">
+      <p class="overline">POZNAJ NAS</p>
+      <h2 class="greeting-headline">Dzień dobry!</h2>
+      <p class="greeting-sub">Jesteśmy warszawskim deweloperem prowadzonym przez design.</p>
+    </div>
+    <div class="greeting-right">
+      <p>Grands Developments to firma, która projektuje budynki i przestrzenie eleganckie i autorytatywne. Nasza praca objawia się poprzez świadomą prostotę — tworzymy miejsca przemyślane, które stają się kompletne w momencie, gdy zamieszkają w nich klienci.</p>
+      <p>Przez ponad 12 lat na rynku warszawskim łączymy doświadczenie dewelopera, wrażliwość architekta wnętrz i sprawność operacyjną firmy skupującej nieruchomości. Trzy dziedziny, jedna misja.</p>
+      <a href="#co-robimy" class="text-link">Więcej o nas →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CO ROBIMY — CAPABILITIES -->
+<section id="co-robimy" class="bg-warm">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">NASZE SPECJALIZACJE</p>
+      <h2>Co robimy</h2>
+      <p class="section-intro">Trzy dziedziny działalności, spójna filozofia — elegancja, precyzja i partnerskie podejście do każdego klienta.</p>
+    </div>
+    <div class="capabilities-grid">
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18M5 21V10l7-7 7 7v11"/><path d="M9 21v-6h6v6"/>
+          </svg>
+        </div>
+        <h3>Inwestycje deweloperskie</h3>
+        <p>Realizujemy kameralne projekty mieszkaniowe o podwyższonym standardzie. Każda inwestycja — od lokalizacji po wykończenie — jest przemyślana w najdrobniejszym szczególe, tworząc przestrzenie balansujące między architekturą a życiem.</p>
+        <a href="#projekty-deweloperskie" class="text-link">Więcej info →</a>
+      </div>
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>
+          </svg>
+        </div>
+        <h3>Studio wnętrz</h3>
+        <p>Tworzymy spójne, funkcjonalne wnętrza mieszkalne i komercyjne. Łączymy estetykę z praktycznością — projektując przestrzenie gotowe do życia, gdy tylko przekroczysz próg. Bliska współpraca z klientem to nasz priorytet.</p>
+        <a href="#projekty-wnetrz" class="text-link">Więcej info →</a>
+      </div>
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h3>Skup nieruchomości</h3>
+        <p>Skupujemy mieszkania i lokale użytkowe bezpośrednio, bez pośredników. W każdym stanie prawnym i technicznym — w tym zadłużone i z hipoteką. Wycena bezpłatna w 24 godziny, gotówka przy akcie notarialnym.</p>
+        <a href="#skup-mieszkan" class="text-link">Więcej info →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-number">47</span>
+      <span class="stat-label">zrealizowanych projektów</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">12</span>
+      <span class="stat-label">lat na rynku</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">18 000 m²</span>
+      <span class="stat-label">łączna powierzchnia</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">3</span>
+      <span class="stat-label">dziedziny działalności</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROJEKTY DEWELOPERSKIE -->
+<section id="projekty-deweloperskie">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">NASZE REALIZACJE</p>
+      <h2>Projekty deweloperskie</h2>
+    </div>
+    <div class="projects-grid">
+      <article class="project-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800" alt="Osiedle Górny Mokotów" loading="lazy" />
+          <div class="card-overlay"><span>Zobacz projekt →</span></div>
+        </div>
+        <div class="card-info">
+          <h3>Osiedle Górny Mokotów</h3>
+          <div class="card-meta"><span class="location-badge">Mokotów</span><span class="year">2023</span></div>
+          <p class="card-desc">32 apartamenty, standard deweloperski+</p>
+          <a href="#kontakt" class="text-link small">Więcej info →</a>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800" alt="Apartamenty Wilanów Park" loading="lazy" />
+          <div class="card-overlay"><span>Zobacz projekt →</span></div>
+        </div>
+        <div class="card-info">
+          <h3>Apartamenty Wilanów Park</h3>
+          <div class="card-meta"><span class="location-badge">Wilanów</span><span class="year">2022</span></div>
+          <p class="card-desc">18 mieszkań z ogrodami i tarasami</p>
+          <a href="#kontakt" class="text-link small">Więcej info →</a>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800" alt="Kameralny Dom Ursynów" loading="lazy" />
+          <div class="card-overlay"><span>Zobacz projekt →</span></div>
+        </div>
+        <div class="card-info">
+          <h3>Kameralny Dom Ursynów</h3>
+          <div class="card-meta"><span class="location-badge">Ursynów</span><span class="year">2023</span></div>
+          <p class="card-desc">Butikowa inwestycja, 8 jednostek</p>
+          <a href="#kontakt" class="text-link small">Więcej info →</a>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" alt="Lofty na Woli" loading="lazy" />
+          <div class="card-overlay"><span>Zobacz projekt →</span></div>
+        </div>
+        <div class="card-info">
+          <h3>Lofty na Woli</h3>
+          <div class="card-meta"><span class="location-badge">Wola</span><span class="year">2024</span></div>
+          <p class="card-desc">Industrialne lofty w rewitalizowanej kamienicy</p>
+          <a href="#kontakt" class="text-link small">Więcej info →</a>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800" alt="Rezydencja Saska Kępa" loading="lazy" />
+          <div class="card-overlay"><span>Zobacz projekt →</span></div>
+        </div>
+        <div class="card-info">
+          <h3>Rezydencja Saska Kępa</h3>
+          <div class="card-meta"><span class="location-badge">Saska Kępa</span><span class="year">2022</span></div>
+          <p class="card-desc">Ekskluzywne mieszkania premium</p>
+          <a href="#kontakt" class="text-link small">Więcej info →</a>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800" alt="Osiedle Białołęka Green" loading="lazy" />
+          <div class="card-overlay"><span>Zobacz projekt →</span></div>
+        </div>
+        <div class="card-info">
+          <h3>Osiedle Białołęka Green</h3>
+          <div class="card-meta"><span class="location-badge">Białołęka</span><span class="year">2024</span></div>
+          <p class="card-desc">Rodzinne osiedle z zielenią</p>
+          <a href="#kontakt" class="text-link small">Więcej info →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROJEKTY WNĘTRZ -->
+<section id="projekty-wnetrz" class="bg-warm">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">STUDIO WNĘTRZ</p>
+      <h2>Projekty wnętrz</h2>
+    </div>
+    <div class="masonry-grid">
+      <article class="masonry-card">
+        <div class="masonry-img-wrap ratio-43">
+          <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=800" alt="Apartament Powiśle" loading="lazy" />
+          <div class="masonry-caption"><h4>Apartament Powiśle</h4><span class="type-tag">Projekt + realizacja · 80m² · Śródmieście</span></div>
+        </div>
+      </article>
+      <article class="masonry-card">
+        <div class="masonry-img-wrap ratio-34">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800" alt="Dom jednorodzinny Konstancin" loading="lazy" />
+          <div class="masonry-caption"><h4>Dom jednorodzinny Konstancin</h4><span class="type-tag">Projekt koncepcyjny · 220m² · Konstancin</span></div>
+        </div>
+      </article>
+      <article class="masonry-card">
+        <div class="masonry-img-wrap ratio-43">
+          <img src="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800" alt="Penthouse Złota 44" loading="lazy" />
+          <div class="masonry-caption"><h4>Penthouse Złota 44</h4><span class="type-tag">Projekt wnętrza · 140m² · Śródmieście</span></div>
+        </div>
+      </article>
+      <article class="masonry-card">
+        <div class="masonry-img-wrap ratio-34">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800" alt="Mieszkanie Wilanów" loading="lazy" />
+          <div class="masonry-caption"><h4>Mieszkanie Wilanów</h4><span class="type-tag">Projekt + nadzór · 65m² · Wilanów</span></div>
+        </div>
+      </article>
+      <article class="masonry-card">
+        <div class="masonry-img-wrap ratio-43">
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800" alt="Biuro Al. Jerozolimskie" loading="lazy" />
+          <div class="masonry-caption"><h4>Biuro Al. Jerozolimskie</h4><span class="type-tag">Przestrzeń komercyjna · 300m² · Śródmieście</span></div>
+        </div>
+      </article>
+      <article class="masonry-card">
+        <div class="masonry-img-wrap ratio-34">
+          <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800" alt="Kawalerka Praga" loading="lazy" />
+          <div class="masonry-caption"><h4>Kawalerka Praga</h4><span class="type-tag">Projekt na wynajem · 32m² · Praga Północ</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SKUP MIESZKAŃ -->
+<section id="skup-mieszkan" class="bg-dark">
+  <div class="container skup-grid">
+    <div class="skup-left">
+      <p class="overline">TYLKO WARSZAWA</p>
+      <h2>Skup mieszkań — szybko, bez pośredników</h2>
+      <p class="skup-desc">Skupujemy mieszkania i lokale na terenie Warszawy w każdym stanie prawnym i technicznym. Oferujemy uczciwe wyceny, szybką realizację i pełne wsparcie prawne przez cały czas transakcji.</p>
+      <ul class="usp-list">
+        <li>
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Wycena w 24 godziny
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Gotówka lub przelew przy podpisaniu aktu
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Skupujemy również lokale zadłużone i z hipoteką
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Zero prowizji — żadnych ukrytych kosztów
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Pełne wsparcie prawne przez cały czas transakcji
+        </li>
+      </ul>
+      <a href="#kontakt" class="btn btn-gold">Zapytaj o wycenę</a>
+    </div>
+    <div class="skup-right">
+      <div class="dark-form-card">
+        <form id="skup-form" novalidate>
+          <div class="form-group">
+            <label for="skup-name">Imię i nazwisko</label>
+            <input type="text" id="skup-name" name="name" placeholder="Jan Kowalski" required />
+          </div>
+          <div class="form-group">
+            <label for="skup-phone">Telefon</label>
+            <input type="tel" id="skup-phone" name="phone" placeholder="+48 000 000 000" required />
+          </div>
+          <div class="form-group">
+            <label for="skup-area">Metraż (m²)</label>
+            <input type="number" id="skup-area" name="area" placeholder="np. 65" min="1" required />
+          </div>
+          <div class="form-group">
+            <label for="skup-district">Dzielnica</label>
+            <select id="skup-district" name="district" required>
+              <option value="" disabled selected>Wybierz dzielnicę</option>
+              <option>Bemowo</option><option>Białołęka</option><option>Bielany</option>
+              <option>Mokotów</option><option>Ochota</option><option>Praga Południe</option>
+              <option>Praga Północ</option><option>Rembertów</option><option>Śródmieście</option>
+              <option>Targówek</option><option>Ursus</option><option>Ursynów</option>
+              <option>Wawer</option><option>Wesoła</option><option>Wilanów</option>
+              <option>Włochy</option><option>Wola</option><option>Żoliborz</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="skup-message">Wiadomość</label>
+            <textarea id="skup-message" name="message" rows="3" placeholder="Dodatkowe informacje o lokalu..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold full-width">Wyślij zapytanie</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONSULTACJE -->
+<section id="konsultacje" class="bg-warm">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">EKSPERCI DO TWOJEJ DYSPOZYCJI</p>
+      <h2>Konsultacje i usługi dodatkowe</h2>
+      <p class="section-intro">Oferujemy przejrzyste, stałe ceny — bez ukrytych kosztów. Każda konsultacja kończy się pisemnym raportem.</p>
+    </div>
+    <div class="konsultacje-grid">
+      <div class="konsultacja-card">
+        <div class="kons-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>
+          </svg>
+        </div>
+        <h3>Konsultacja projektu wnętrza online</h3>
+        <p>Godzinna wideokonferencja z architektem wnętrz. Omówimy układ, kolorystykę, dobór materiałów i mebli. Idealne przed remontem lub zakupem mebli.</p>
+        <ul class="kons-includes">
+          <li>✓ Analiza rzutu i zdjęć lokalu</li>
+          <li>✓ Rekomendacje stylistyczne</li>
+          <li>✓ Lista zakupów / dostawców</li>
+          <li>✓ Nagranie spotkania w cenie</li>
+        </ul>
+        <div class="kons-price">350 zł / godz.</div>
+        <p class="kons-note">Pakiet 3h: 900 zł · Online (wideokonferencja)</p>
+        <a href="#kontakt" class="text-link small">Umów konsultację →</a>
+      </div>
+      <div class="konsultacja-card">
+        <div class="kons-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 2h8v8H2zM14 2h8v8h-8zM2 14h8v8H2zM17 18v-4M14 21h6M17 14v0"/>
+          </svg>
+        </div>
+        <h3>Inwentaryzacja mieszkania lub domu</h3>
+        <p>Precyzyjny pomiar laserowy i wykonanie rzutu technicznego lokalu. Niezbędne przed projektem wnętrza, remontem lub sprzedażą nieruchomości.</p>
+        <ul class="kons-includes">
+          <li>✓ Pomiar laserowy lokalu</li>
+          <li>✓ Rzut 2D w skali (PDF + DWG)</li>
+          <li>✓ Opis techniczny pomieszczeń</li>
+          <li>✓ Czas realizacji: 3 dni robocze</li>
+        </ul>
+        <div class="kons-price">od 400 zł</div>
+        <p class="kons-note">Do 60m²: 400 zł | 60–120m²: 650 zł | &gt;120m²: wycena indywidualna · Warszawa i okolice</p>
+        <a href="#kontakt" class="text-link small">Umów konsultację →</a>
+      </div>
+      <div class="konsultacja-card">
+        <div class="kons-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="1"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3>Sprawdzenie stanu mieszkania deweloperskiego</h3>
+        <p>Odbiór techniczny lokalu od dewelopera w Twoim imieniu. Sprawdzimy zgodność z projektem, wykryjemy usterki i przygotujemy protokół odbioru.</p>
+        <ul class="kons-includes">
+          <li>✓ Wizja lokalna z ekspertem</li>
+          <li>✓ Sprawdzenie instalacji, tynków, okien, podłóg</li>
+          <li>✓ Weryfikacja zgodności z projektem</li>
+          <li>✓ Pisemny protokół usterek (PDF)</li>
+          <li>✓ Wsparcie przy reklamacji do dewelopera</li>
+        </ul>
+        <div class="kons-price">od 500 zł</div>
+        <p class="kons-note">Do 60m²: 500 zł | 60–120m²: 750 zł | powyżej 120m²: od 950 zł</p>
+        <a href="#kontakt" class="text-link small">Umów konsultację →</a>
+      </div>
+      <div class="konsultacja-card">
+        <div class="kons-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18M5 21V10l7-7 7 7v11"/><path d="M9 21v-6h6v6"/><path d="M15 6l4 4-2 2"/>
+          </svg>
+        </div>
+        <h3>Konsultacja zmian deweloperskich</h3>
+        <p>Doradztwo przy wyborze i wycenie zmian lokatorskich u dewelopera. Ocenimy, które zmiany są warte swojej ceny i co lepiej zrobić samodzielnie po odbiorze.</p>
+        <ul class="kons-includes">
+          <li>✓ Analiza oferty zmian dewelopera</li>
+          <li>✓ Rekomendacja priorytetów</li>
+          <li>✓ Alternatywne wyceny rynkowe</li>
+          <li>✓ 90 minut — online lub stacjonarnie</li>
+        </ul>
+        <div class="kons-price">450 zł</div>
+        <p class="kons-note">Pakiet z inwentaryzacją (B+D): 800 zł · Online lub stacjonarnie</p>
+        <a href="#kontakt" class="text-link small">Umów konsultację →</a>
+      </div>
+    </div>
+    <div class="kons-cta-banner">
+      <p>Nie wiesz, która usługa jest dla Ciebie? Napisz do nas — dobierzemy odpowiedni pakiet.</p>
+      <a href="#kontakt" class="btn btn-dark">Skontaktuj się</a>
+    </div>
+  </div>
+</section>
+
+<!-- NASZ ZESPÓŁ -->
+<section id="zespol">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">LUDZIE</p>
+      <h2>Nasz zespół</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400" alt="Katarzyna Malinowska" loading="lazy" />
+        </div>
+        <h4>Katarzyna Malinowska</h4>
+        <p class="team-role">Architekt wnętrz, Partner</p>
+        <p class="team-bio">Absolwentka ASP w Warszawie. Od 14 lat projektuje wnętrza, które łączą estetykę ze świadomą prostotą. Odpowiada za Studio Wnętrz Grands.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400" alt="Piotr Granowski" loading="lazy" />
+        </div>
+        <h4>Piotr Granowski</h4>
+        <p class="team-role">Dyrektor deweloperski</p>
+        <p class="team-bio">Ponad 15 lat doświadczenia w realizacji inwestycji mieszkaniowych w Warszawie. Nadzoruje każdy projekt od zakupu gruntu po odbiór kluczy.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400" alt="Anna Wierzbicka" loading="lazy" />
+        </div>
+        <h4>Anna Wierzbicka</h4>
+        <p class="team-role">Project Manager</p>
+        <p class="team-bio">Koordynuje projekty wnętrz i konsultacje techniczne. Specjalistka od odbioru deweloperskiego i negocjacji z wykonawcami.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPINIE KLIENTÓW -->
+<section id="opinie" class="bg-warm">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">OPINIE</p>
+      <h2>Co mówią nasi klienci</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p>Grands Developments to firma, która naprawdę słucha klienta. Apartament na Mokotowie przeszedł nasze najśmielsze oczekiwania — każdy detal był przemyślany. Polecamy z pełnym przekonaniem.</p>
+        <div class="testimonial-author">
+          <strong>Marek i Joanna K.</strong>
+          <span>Klienci, Mokotów</span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p>Profesjonalne podejście, terminowość i dbałość o detal — to cechy, które wyróżniają Grands na rynku. Projekt wnętrza naszego domu w Konstancinie to czysta przyjemność estetyczna.</p>
+        <div class="testimonial-author">
+          <strong>Tomasz W.</strong>
+          <span>Klient, Wilanów</span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p>Skup mieszkania przebiegł sprawnie i bez stresu. Wycena w 24 godziny, akt notarialny tydzień później, gotówka od razu. Żadnych niespodzianek, żadnych ukrytych kosztów. Dziękuję.</p>
+        <div class="testimonial-author">
+          <strong>Beata S.</strong>
+          <span>Klientka, Wola</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AKTUALNA OFERTA -->
+<section id="aktualna-oferta">
+  <div class="container">
+    <div class="section-header">
+      <p class="overline">NIERUCHOMOŚCI</p>
+      <h2>Aktualna oferta</h2>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="sprzedaz">Sprzedaż mieszkań</button>
+      <button class="tab-btn" data-tab="uslugi">Usługi projektowe</button>
+    </div>
+    <div class="tab-content active" id="tab-sprzedaz">
+      <div class="listings-grid">
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800" alt="Apartament Mokotów" loading="lazy" />
+          </div>
+          <div class="listing-info">
+            <h3>Apartament Mokotów</h3>
+            <div class="listing-price">890 000 zł</div>
+            <div class="listing-badges">
+              <span class="badge">68m²</span><span class="badge">3 pok.</span><span class="badge">IV piętro</span><span class="badge district-badge">Mokotów</span>
+            </div>
+            <p>Gotowy apartament w nowym budownictwie. Standard wykończenia premium. Idealny do zamieszkania lub jako inwestycja.</p>
+            <a href="#kontakt" class="text-link small">Zapytaj o szczegóły →</a>
+          </div>
+        </article>
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800" alt="Mieszkanie Wilanów Park" loading="lazy" />
+          </div>
+          <div class="listing-info">
+            <h3>Mieszkanie Wilanów Park</h3>
+            <div class="listing-price">1 150 000 zł</div>
+            <div class="listing-badges">
+              <span class="badge">92m²</span><span class="badge">4 pok.</span><span class="badge">I piętro z ogródkiem</span><span class="badge district-badge">Wilanów</span>
+            </div>
+            <p>Przestronne mieszkanie z prywatnym ogrodem 45 m². Gotowe do zamieszkania. Spokojna, zielona okolica Wilanowa, dobra komunikacja.</p>
+            <a href="#kontakt" class="text-link small">Zapytaj o szczegóły →</a>
+          </div>
+        </article>
+        <article class="listing-card">
+          <div class="listing-img-wrap">
+            <img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800" alt="Kawalerka Wola" loading="lazy" />
+          </div>
+          <div class="listing-info">
+            <h3>Kawalerka Wola</h3>
+            <div class="listing-price">490 000 zł</div>
+            <div class="listing-badges">
+              <span class="badge">32m²</span><span class="badge">1 pok.</span><span class="badge">VII piętro</span><span class="badge district-badge">Wola</span>
+            </div>
+            <p>Nowoczesna kawalerka z widokiem na panoramę Warszawy. Idealna pod inwestycję na wynajem. Wysokie piętro, nowe budownictwo.</p>
+            <a href="#kontakt" class="text-link small">Zapytaj o szczegóły →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-uslugi">
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <h3>Projekt koncepcyjny wnętrza</h3>
+          <p>Moodboard, rzut funkcjonalny, paleta kolorów — kompleksowe opracowanie koncepcji przestrzeni.</p>
+          <div class="service-price">od 3 500 zł</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <h3>Pełna dokumentacja wykonawcza</h3>
+          <p>Projekt techniczny gotowy dla wykonawców — rzuty, przekroje, detale, zestawienia materiałów.</p>
+          <div class="service-price">od 8 000 zł</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <h3>Nadzór autorski</h3>
+          <p>Wizyty kontrolne, koordynacja ekip, odbiory etapów — pełna opieka nad realizacją projektu.</p>
+          <div class="service-price">od 500 zł / wizyta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="container kontakt-grid">
+    <div class="kontakt-info">
+      <p class="overline">NAPISZ DO NAS</p>
+      <h2>Jesteśmy tu,<br>by się spotkać</h2>
+      <div class="kontakt-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div><strong>Grands Developments Sp. z o.o.</strong><br>ul. Złota 59, 00-120 Warszawa</div>
+      </div>
+      <div class="kontakt-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .99h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        <a href="tel:+48220000000">+48 22 000 00 00</a>
+      </div>
+      <div class="kontakt-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:kontakt@grandsdevelopment.pl">kontakt@grandsdevelopment.pl</a>
+      </div>
+      <div class="kontakt-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b89a6a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div>Pon–Pt 9:00–18:00<br>Sob 10:00–14:00</div>
+      </div>
+    </div>
+    <div class="kontakt-form-wrap">
+      <form id="kontakt-form" novalidate>
+        <div class="form-group">
+          <label for="k-name">Imię i nazwisko</label>
+          <input type="text" id="k-name" name="name" placeholder="Jan Kowalski" required />
+        </div>
+        <div class="form-group">
+          <label for="k-email">Email</label>
+          <input type="email" id="k-email" name="email" placeholder="jan@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="k-phone">Telefon</label>
+          <input type="tel" id="k-phone" name="phone" placeholder="+48 000 000 000" />
+        </div>
+        <div class="form-group">
+          <label for="k-topic">Temat</label>
+          <select id="k-topic" name="topic" required>
+            <option value="" disabled selected>Wybierz temat</option>
+            <option>Zapytanie o projekt deweloperski</option>
+            <option>Projekt wnętrza</option>
+            <option>Skup mieszkań</option>
+            <option>Konsultacja</option>
+            <option>Inne</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="k-message">Wiadomość</label>
+          <textarea id="k-message" name="message" rows="4" placeholder="Treść wiadomości..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold full-width">Wyślij wiadomość</button>
+      </form>
+    </div>
+  </div>
+  <div class="map-wrap">
+    <div class="container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2443.9524!2d21.0035!3d52.2262!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc66efeb12b7%3A0xdc8b5cfdb2636cc3!2sZ%C5%82ota%2059%2C%2000-120%20Warszawa!5e0!3m2!1spl!2spl!4v1700000000000!5m2!1spl!2spl"
+        width="100%" height="400" style="border:0;border-radius:8px;display:block;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <p class="footer-logo">GRANDS DEVELOPMENTS</p>
+      <p class="footer-tagline">Projektujemy budynki i przestrzenie eleganckie i autorytatywne. Nasza praca objawia się przez świadomą prostotę.</p>
+      <div class="social-icons" style="margin-top:24px;">
+        <a href="#" aria-label="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-nav-col">
+      <p class="footer-heading">O firmie</p>
+      <a href="#o-nas">O nas</a>
+      <a href="#co-robimy">Co robimy</a>
+      <a href="#projekty-deweloperskie">Projekty deweloperskie</a>
+      <a href="#projekty-wnetrz">Projekty wnętrz</a>
+      <a href="#zespol">Nasz zespół</a>
+      <a href="#opinie">Opinie klientów</a>
+    </div>
+    <div class="footer-nav-col">
+      <p class="footer-heading">Usługi</p>
+      <a href="#skup-mieszkan">Skup mieszkań</a>
+      <a href="#konsultacje">Konsultacje</a>
+      <a href="#aktualna-oferta">Aktualna oferta</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+    <div class="footer-newsletter">
+      <p class="footer-heading">Bądź na bieżąco</p>
+      <p class="footer-tagline">Zapisz się na newsletter — nowe inwestycje, oferty i porady.</p>
+      <form class="newsletter-form" id="newsletter-form" novalidate>
+        <input type="email" placeholder="Twój adres email" required />
+        <button type="submit" class="btn btn-gold">Zapisz</button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Grands Developments Sp. z o.o. · Wszystkie prawa zastrzeżone · grandsdevelopment.pl</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

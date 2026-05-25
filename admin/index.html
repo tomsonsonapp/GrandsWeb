@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Plot Scraper · Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Spline+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --navy: #0f1b2d; --navy-soft: #18293f;
+  --amber: #d9883a; --amber-bright: #f0a04b;
+  --paper: #f7f3ec; --paper-card: #fffdf9;
+  --ink: #1a1f26; --ink-soft: #5a6472;
+  --line: #e2dace; --green: #4a7c59;
+  --red: #b5524a; --grey: #8b94a0; --blue: #3d6b96;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Spline Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+/* AUTH GATE */
+#auth-gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px; background: var(--navy); }
+.auth-card { background: var(--paper-card); border-radius: 14px; padding: 36px 40px; max-width: 420px; width: 100%; box-shadow: 0 24px 64px -20px rgba(0,0,0,0.5); }
+.auth-card h1 { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.auth-card .muted { color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 22px; }
+.auth-card button { padding: 12px 14px; border: none; border-radius: 8px; background: var(--amber); color: #fff; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.15s; width: 100%; }
+.auth-card button:hover { background: var(--amber-bright); }
+.auth-card .google-btn { background: #fff; color: #3c4043; border: 1px solid #dadce0; display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 500; }
+.auth-card .google-btn:hover { background: #f8f9fa; border-color: #c6cacd; }
+.auth-card .google-btn svg { flex-shrink: 0; }
+.auth-card form { display: flex; flex-direction: column; gap: 12px; }
+.auth-card input { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; font-size: 0.95rem; background: var(--paper); color: var(--ink); outline: none; transition: border-color 0.2s; }
+.auth-card input:focus { border-color: var(--amber); }
+.auth-card .msg { margin-top: 14px; font-size: 0.88rem; color: var(--ink-soft); min-height: 1.2em; }
+
+/* TOPBAR */
+.topbar { background: var(--navy); color: #fff; padding: 0 32px; display: flex; align-items: center; gap: 24px; height: 58px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+.topbar .logo { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; color: #fff; }
+.topbar .logo span { color: var(--amber-bright); }
+.topbar .stats { margin-left: auto; display: flex; gap: 28px; align-items: center; }
+.topbar .stat { text-align: right; }
+.topbar .stat .n { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; color: var(--amber-bright); }
+.topbar .stat .l { font-size: 0.7rem; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+.topbar .logout-btn { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 14px; border-radius: 6px; font-family: inherit; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; }
+.topbar .logout-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--amber-bright); color: var(--amber-bright); }
+
+/* TOOLBAR */
+.toolbar { padding: 16px 32px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--line); background: var(--paper-card); flex-wrap: wrap; }
+.toolbar input[type=text] { padding: 9px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: var(--paper); color: var(--ink); width: 240px; outline: none; transition: border-color 0.2s; }
+.toolbar input[type=text]:focus { border-color: var(--amber); }
+.toolbar label.lbl { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; }
+.toolbar select { padding: 9px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; font-size: 0.88rem; background: var(--paper); color: var(--ink); outline: none; cursor: pointer; }
+.toolbar .sep { width: 1px; height: 28px; background: var(--line); margin: 0 4px; }
+.filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill-btn { padding: 6px 14px; border-radius: 100px; border: 1px solid var(--line); background: var(--paper); font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--ink-soft); transition: all 0.15s; }
+.pill-btn:hover { border-color: var(--amber); color: var(--amber); }
+.pill-btn.active { background: var(--amber); border-color: var(--amber); color: #fff; }
+
+/* MAIN GRID */
+.main { padding: 28px 32px; }
+.listing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+
+/* CARD */
+.offer-card { background: var(--paper-card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; box-shadow: 0 1px 2px rgba(15,27,45,0.04); display: flex; flex-direction: column; }
+.offer-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -14px rgba(15,27,45,0.35); }
+.offer-thumb { position: relative; height: 168px; background: linear-gradient(135deg, #2a3849, #1a2738); overflow: hidden; }
+.offer-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.offer-thumb .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 2.5rem; }
+.offer-thumb .score-tag { position: absolute; top: 12px; left: 12px; width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.offer-thumb .verdict-tag { position: absolute; top: 12px; right: 12px; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+.score-hot { background: #fde8d4; color: #b55a10; }
+.score-warm { background: #fef3e2; color: #9a6b0f; }
+.score-cold { background: #e8ebef; color: #5a6472; }
+.score-pass { background: #f4dedc; color: var(--red); }
+.v-HOT { background: #fde8d4; color: #b55a10; }
+.v-WARM { background: #fef3e2; color: #9a6b0f; }
+.v-COLD { background: #e8ebef; color: #5a6472; }
+.v-PASS { background: #f4dedc; color: var(--red); }
+.offer-body { padding: 15px 17px 17px; flex: 1; display: flex; flex-direction: column; }
+.offer-title { font-weight: 600; color: var(--navy); font-size: 0.97rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5em; }
+.offer-loc { font-size: 0.8rem; color: var(--ink-soft); margin-top: 5px; display: flex; align-items: center; gap: 5px; }
+.offer-price { margin-top: auto; padding-top: 13px; display: flex; align-items: baseline; justify-content: space-between; }
+.offer-price .p { font-family: 'Fraunces', serif; font-size: 1.32rem; font-weight: 600; color: var(--navy); }
+.offer-price .ppm { font-size: 0.78rem; color: var(--ink-soft); }
+.offer-date { font-size: 0.72rem; color: var(--grey); margin-top: 8px; }
+
+/* POPUP */
+.overlay { position: fixed; inset: 0; background: rgba(15,27,45,0.55); backdrop-filter: blur(3px); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 40px 20px; overflow-y: auto; }
+.overlay.show { display: flex; }
+.modal { background: var(--paper-card); border-radius: 18px; max-width: 880px; width: 100%; overflow: hidden; box-shadow: 0 24px 64px -20px rgba(0,0,0,0.5); animation: pop 0.22s ease; }
+@keyframes pop { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+.modal-hero { position: relative; background: linear-gradient(135deg, var(--navy), #1c3149); color: #fff; }
+.modal-hero .gallery { display: flex; height: 220px; gap: 2px; }
+.modal-hero .gallery img { flex: 1; object-fit: cover; height: 100%; min-width: 0; }
+.modal-hero .gallery .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.25); font-size: 3rem; }
+.modal-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.45); color: #fff; border: none; font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; z-index: 2; }
+.modal-close:hover { background: var(--red); }
+.modal-heading { padding: 20px 28px; background: linear-gradient(to top, rgba(15,27,45,1), rgba(15,27,45,0.85)); position: relative; }
+.modal-heading .statusbar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.modal-heading .pill { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; padding: 4px 11px; border-radius: 6px; text-transform: uppercase; }
+.modal-heading .score-big { margin-left: auto; display: flex; align-items: baseline; gap: 3px; }
+.modal-heading .score-big .n { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--amber-bright); }
+.modal-heading .score-big .d { color: rgba(255,255,255,0.5); }
+.modal-heading h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 500; line-height: 1.18; }
+.modal-heading .loc { margin-top: 6px; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+
+.modal-facts { display: flex; gap: 0; border-bottom: 1px solid var(--line); }
+.modal-facts .fact { flex: 1; padding: 16px 20px; text-align: center; border-right: 1px solid var(--line); }
+.modal-facts .fact:last-child { border-right: none; }
+.modal-facts .fact .lab { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); }
+.modal-facts .fact .val { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: var(--navy); margin-top: 3px; }
+
+.modal-body { padding: 24px 28px; max-height: 50vh; overflow-y: auto; }
+.modal-section { margin-bottom: 24px; }
+.modal-section:last-child { margin-bottom: 0; }
+.modal-section h4 { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); font-weight: 700; margin-bottom: 11px; }
+.thesis { font-family: 'Fraunces', serif; font-size: 1.05rem; font-style: italic; color: var(--navy); line-height: 1.5; border-left: 3px solid var(--amber); padding-left: 16px; }
+.summary-text { font-size: 0.93rem; color: var(--ink); line-height: 1.6; }
+
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.check-row { display: grid; grid-template-columns: 150px 1fr; gap: 14px; font-size: 0.87rem; align-items: start; }
+@media (max-width: 560px) { .check-row { grid-template-columns: 1fr; gap: 3px; } }
+.check-row .cat { font-weight: 600; color: var(--ink-soft); }
+.check-row .st { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-right: 7px; }
+.st-PLUS, .st-OK { background: #e3eee6; color: var(--green); }
+.st-RYZYKO { background: #f4dedc; color: var(--red); }
+.st-BRAK_DANYCH { background: #e8ebef; color: #5a6472; }
+.st-DO_SPRAWDZENIA { background: #dde8f1; color: var(--blue); }
+.st-POTENCJALNY_PROBLEM { background: #f5e4d0; color: #a05d1c; }
+.check-row .find { color: var(--ink); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+.mini-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.mini-list li { font-size: 0.87rem; padding-left: 20px; position: relative; }
+.mini-list.str li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+.mini-list.rsk li::before { content: "!"; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+.mini-list.miss li::before { content: "?"; position: absolute; left: 0; color: var(--grey); font-weight: 700; }
+.q-list { list-style: none; counter-reset: q; display: flex; flex-direction: column; gap: 9px; }
+.q-list li { counter-increment: q; font-size: 0.89rem; padding-left: 32px; position: relative; }
+.q-list li::before { content: counter(q); position: absolute; left: 0; top: 0; width: 21px; height: 21px; background: var(--navy); color: #fff; border-radius: 50%; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+.modal-footer { padding: 18px 28px; border-top: 1px solid var(--line); background: var(--paper); display: flex; align-items: center; gap: 14px; }
+.link-main { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--amber); color: #fff; border-radius: 9px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: background 0.15s; }
+.link-main:hover { background: var(--amber-bright); }
+.footer-meta { margin-left: auto; font-size: 0.78rem; color: var(--grey); }
+
+/* STATES */
+.state-block { text-align: center; padding: 80px 20px; color: var(--ink-soft); grid-column: 1/-1; }
+.spinner { display: inline-block; width: 30px; height: 30px; border: 3px solid var(--line); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate"><div class="auth-card"><div class="spinner"></div></div></div>
+
+<!-- APP (ukryty do momentu zalogowania) -->
+<div id="app" hidden>
+  <div class="topbar">
+    <div class="logo">Plot <span>Scraper</span></div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="stat-total">—</div><div class="l">ofert</div></div>
+      <div class="stat"><div class="n" id="stat-hot">—</div><div class="l">HOT/WARM</div></div>
+      <button class="logout-btn" id="logout-btn">Wyloguj</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="🔍  Szukaj…">
+    <div class="sep"></div>
+    <div class="filter-pills">
+      <button class="pill-btn active" data-verdict="ALL">Wszystkie</button>
+      <button class="pill-btn" data-verdict="HOT">HOT</button>
+      <button class="pill-btn" data-verdict="WARM">WARM</button>
+      <button class="pill-btn" data-verdict="COLD">COLD</button>
+    </div>
+    <div class="sep"></div>
+    <label class="lbl">Score min</label>
+    <select id="score-filter">
+      <option value="0">wszystkie</option>
+      <option value="3">≥ 3</option>
+      <option value="6">≥ 6</option>
+      <option value="8">≥ 8</option>
+    </select>
+    <label class="lbl">Data</label>
+    <select id="date-filter">
+      <option value="0">wszystkie</option>
+      <option value="1">ostatnie 24h</option>
+      <option value="7">ostatnie 7 dni</option>
+      <option value="30">ostatnie 30 dni</option>
+    </select>
+    <div class="sep"></div>
+    <label class="lbl">Sortuj</label>
+    <select id="sort-select">
+      <option value="score">Score (malejąco)</option>
+      <option value="score_asc">Score (rosnąco)</option>
+      <option value="date">Data (najnowsze)</option>
+      <option value="date_asc">Data (najstarsze)</option>
+      <option value="price">Cena (najwyższa)</option>
+      <option value="price_asc">Cena (najniższa)</option>
+    </select>
+  </div>
+
+  <div class="main">
+    <div class="listing-grid" id="grid">
+      <div class="state-block"><div class="spinner"></div><br>Ładowanie ofert…</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="modal" id="modal"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./auth.js"></script>
+<script>
+let allData = [], view = [];
+let verdictFilter = 'ALL', scoreMin = 0, dateDays = 0, sortMode = 'score', searchQ = '';
+let uiWired = false;
+
+function getImages(d) {
+  const rd = d.raw_data || {};
+  let imgs = rd.images || rd.imageUrls || rd.photos || [];
+  if (typeof imgs === 'string') { try { imgs = JSON.parse(imgs); } catch { imgs = [imgs]; } }
+  return Array.isArray(imgs) ? imgs.filter(Boolean) : [];
+}
+function scoreClass(v){ if(v>=8)return'score-hot'; if(v>=6)return'score-warm'; if(v>=3)return'score-cold'; return'score-pass'; }
+function fmt(n){ return n ? Number(n).toLocaleString('pl-PL') : '—'; }
+function fmtDate(s){ if(!s)return'—'; return new Date(s).toLocaleDateString('pl-PL',{day:'2-digit',month:'short',year:'numeric'}); }
+
+async function fetchData(attempt = 1) {
+  try {
+    console.log(`[dashboard] fetchData attempt ${attempt}`);
+    const token = await window.GrandsAuth.getAccessToken();
+    console.log('[dashboard] token available:', !!token);
+
+    const r = await fetch(`${window.GrandsAuth.SUPABASE_URL}/rest/v1/dzialki_listings?select=*&order=score.desc.nullslast&limit=300`, {
+      headers: {
+        'apikey': window.GrandsAuth.SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${token || window.GrandsAuth.SUPABASE_ANON_KEY}`
+      }
+    });
+    console.log('[dashboard] fetch response status:', r.status);
+
+    if (!r.ok) throw new Error(await r.text());
+    allData = await r.json();
+    console.log('[dashboard] loaded', allData.length, 'listings');
+
+    // Proceed even if empty (might be legitimate empty result)
+    apply();
+  } catch(e) {
+    console.error('[dashboard] fetchData error:', e);
+    if (attempt < 3) {
+      const delay = attempt === 1 ? 200 : 500; // Faster first retry
+      console.log(`[dashboard] Error, retrying in ${delay}ms...`);
+      setTimeout(() => fetchData(attempt + 1), delay);
+    } else {
+      document.getElementById('grid').innerHTML = `<div class="state-block">❌ Błąd połączenia:<br><small>${e.message}</small></div>`;
+    }
+  }
+}
+
+function apply() {
+  const now = Date.now();
+  view = allData.filter(d => {
+    if (verdictFilter !== 'ALL' && d.verdict !== verdictFilter) return false;
+    if ((d.score||0) < scoreMin) return false;
+    if (dateDays > 0) {
+      const t = d.evaluated_at ? new Date(d.evaluated_at).getTime() : 0;
+      if (now - t > dateDays * 86400000) return false;
+    }
+    if (searchQ) { const q = searchQ.toLowerCase(); if (!(d.title||'').toLowerCase().includes(q) && !(d.city||'').toLowerCase().includes(q)) return false; }
+    return true;
+  });
+  view.sort((a,b) => {
+    switch(sortMode) {
+      case 'score': return (b.score||0)-(a.score||0);
+      case 'score_asc': return (a.score||0)-(b.score||0);
+      case 'date': return new Date(b.evaluated_at||0)-new Date(a.evaluated_at||0);
+      case 'date_asc': return new Date(a.evaluated_at||0)-new Date(b.evaluated_at||0);
+      case 'price': return (b.price||0)-(a.price||0);
+      case 'price_asc': return (a.price||0)-(b.price||0);
+    }
+  });
+  document.getElementById('stat-total').textContent = allData.length;
+  document.getElementById('stat-hot').textContent = allData.filter(d => d.verdict==='HOT'||d.verdict==='WARM').length;
+  render();
+}
+
+function render() {
+  const grid = document.getElementById('grid');
+  if (!view.length) { grid.innerHTML = `<div class="state-block">Brak ofert spełniających kryteria.</div>`; return; }
+
+  // Build HTML string once, then insert all at once (much faster than appendChild loop)
+  const html = view.map((d, idx) => {
+    const imgs = getImages(d);
+    const thumb = imgs.length ? `<img src="${imgs[0]}" alt="" onerror="this.parentNode.innerHTML='<div class=\\'no-img\\'>🏞</div>'">` : `<div class="no-img">🏞</div>`;
+    return `
+      <div class="offer-card" data-index="${idx}">
+        <div class="offer-thumb">
+          ${thumb}
+          <div class="score-tag ${scoreClass(d.score||0)}">${d.score||'—'}</div>
+          <div class="verdict-tag v-${d.verdict||'COLD'}">${d.verdict||'—'}</div>
+        </div>
+        <div class="offer-body">
+          <div class="offer-title">${d.title||'Bez tytułu'}</div>
+          <div class="offer-loc">📍 ${d.city||'—'}</div>
+          <div class="offer-price">
+            <span class="p">${fmt(d.price)} zł</span>
+            <span class="ppm">${fmt(d.price_per_sqm)} zł/m²</span>
+          </div>
+          <div class="offer-date">Oceniono: ${fmtDate(d.evaluated_at)}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  grid.innerHTML = html;
+
+  // Add click handlers using event delegation (one listener on grid)
+  grid.querySelectorAll('.offer-card').forEach(card => {
+    card.addEventListener('click', () => openModal(view[parseInt(card.dataset.index)]));
+  });
+}
+
+function openModal(d) {
+  const card = d.evaluation?.card || {};
+  const imgs = getImages(d);
+  const gallery = imgs.length
+    ? `<div class="gallery">${imgs.slice(0,3).map(u => `<img src="${u}" onerror="this.style.display='none'">`).join('')}</div>`
+    : `<div class="gallery"><div class="no-img">🏞</div></div>`;
+
+  const checklist = (card.checklist||[]).map(c =>
+    `<li class="check-row"><span class="cat">${c.category||c.item||''}</span><span class="find"><span class="st st-${(c.status||'').replace(/ /g,'_')}">${(c.status||'').replace(/_/g,' ')}</span>${c.finding_pl||''}</span></li>`
+  ).join('');
+  const strengths = (card.strengths||[]).map(s => `<li>${s}</li>`).join('');
+  const risks = (card.risks||[]).map(r => `<li>${r}</li>`).join('');
+  const questions = (card.questions_to_seller||[]).map(q => `<li>${q}</li>`).join('');
+
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-hero">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      ${gallery}
+      <div class="modal-heading">
+        <div class="statusbar">
+          <span class="pill v-${d.verdict||'COLD'}">${d.verdict||'—'}</span>
+          <span class="score-big"><span class="n">${d.score||'—'}</span><span class="d">/10</span></span>
+        </div>
+        <h2>${d.title||'Bez tytułu'}</h2>
+        <div class="loc">📍 ${d.city||'—'} · ${d.seller_type==='agency'?'agencja':'prywatny'}</div>
+      </div>
+    </div>
+    <div class="modal-facts">
+      <div class="fact"><div class="lab">Cena</div><div class="val">${fmt(d.price)} zł</div></div>
+      <div class="fact"><div class="lab">Powierzchnia</div><div class="val">${fmt(d.area_sqm)} m²</div></div>
+      <div class="fact"><div class="lab">Cena/m²</div><div class="val">${fmt(d.price_per_sqm)} zł</div></div>
+    </div>
+    <div class="modal-body">
+      ${card.preliminary_thesis_pl ? `<div class="modal-section"><h4>Wstępna teza</h4><p class="thesis">${card.preliminary_thesis_pl}</p></div>` : ''}
+      ${card.summary_pl ? `<div class="modal-section"><h4>Podsumowanie</h4><p class="summary-text">${card.summary_pl}</p></div>` : ''}
+      ${checklist ? `<div class="modal-section"><h4>Checklista analityczna</h4><ul class="checklist">${checklist}</ul></div>` : ''}
+      ${(strengths||risks) ? `<div class="modal-section"><div class="two-col">
+        ${strengths?`<div><h4>Mocne strony</h4><ul class="mini-list str">${strengths}</ul></div>`:''}
+        ${risks?`<div><h4>Ryzyka</h4><ul class="mini-list rsk">${risks}</ul></div>`:''}
+      </div></div>` : ''}
+      ${questions ? `<div class="modal-section"><h4>Pytania do sprzedającego</h4><ul class="q-list">${questions}</ul></div>` : ''}
+    </div>
+    <div class="modal-footer">
+      <a href="${d.url||'#'}" target="_blank" class="link-main">🔗 Otwórz ogłoszenie</a>
+      <span class="footer-meta">Oceniono: ${fmtDate(d.evaluated_at)}</span>
+    </div>`;
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function wireUI() {
+  if (uiWired) return;
+  uiWired = true;
+
+  document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  document.querySelectorAll('.pill-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.pill-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); verdictFilter = b.dataset.verdict; apply();
+  }));
+  document.getElementById('search').addEventListener('input', e => { searchQ = e.target.value.trim(); apply(); });
+  document.getElementById('score-filter').addEventListener('change', e => { scoreMin = +e.target.value; apply(); });
+  document.getElementById('date-filter').addEventListener('change', e => { dateDays = +e.target.value; apply(); });
+  document.getElementById('sort-select').addEventListener('change', e => { sortMode = e.target.value; apply(); });
+
+  // Logout button handler
+  const logoutBtn = document.getElementById('logout-btn');
+  if (!logoutBtn) return;
+
+  logoutBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    console.log('[dashboard] Logout button clicked');
+    if (window.GrandsAuth) {
+      await window.GrandsAuth.logout();
+    } else {
+      console.error('[dashboard] GrandsAuth not available');
+      window.location.href = '../';
+    }
+  });
+}
+
+(async function init() {
+  if (!window.GrandsAuth) {
+    document.getElementById('auth-gate').innerHTML = '<div class="auth-card"><p style="color:red">Błąd: Nie mogę załadować auth modułu</p></div>';
+    return;
+  }
+  try {
+    console.log('[dashboard] Initializing, requireAdmin...');
+    const user = await window.GrandsAuth.requireAdmin({
+      gateEl: document.getElementById('auth-gate'),
+      appEl: document.getElementById('app'),
+      onSuccess: () => {
+        console.log('[dashboard] Auth callback fired, loading UI...');
+        wireUI();
+        fetchData();
+      }
+    });
+
+    if (!user) {
+      console.log('[dashboard] No user returned from requireAdmin');
+      return;
+    }
+
+    console.log('[dashboard] User authenticated:', user.email);
+    wireUI();
+
+    // Also trigger fetch immediately in case callback doesn't fire quickly
+    // (e.g., if user was already logged in)
+    setTimeout(() => {
+      if (allData.length === 0 && document.getElementById('grid').innerHTML.includes('Ładowanie')) {
+        console.log('[dashboard] Data not loaded yet, triggering fetchData...');
+        fetchData();
+      }
+    }, 100);
+
+  } catch (e) {
+    console.error('[dashboard] Init error:', e);
+    document.getElementById('auth-gate').innerHTML = '<div class="auth-card"><p style="color:red">Błąd: ' + e.message + '</p></div>';
+  }
+})();
+</script>
+</body>
+</html>

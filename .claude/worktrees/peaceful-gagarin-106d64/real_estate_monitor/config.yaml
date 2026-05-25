@@ -1,0 +1,29 @@
+scrapers:
+  olx:
+    enabled: true
+    url: "https://www.olx.pl/nieruchomosci/mieszkania/warszawa/"
+    interval_minutes: 30
+  otodom:
+    enabled: true
+    url: "https://www.otodom.pl/pl/oferty/sprzedaz/mieszkanie/warszawa"
+    interval_minutes: 30
+  nieruchomosci:
+    enabled: true
+    url: "https://www.nieruchomosci-online.pl/szukaj.html?type=1&transaction=1&page=1"
+    interval_minutes: 30
+
+notification:
+  email:
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    from: "twoj@gmail.com"
+    to: "twoj@gmail.com"
+
+database:
+  path: "data/listings.db"
+
+ai:
+  model: "claude-sonnet-4-6"
+  match_threshold: 60  # min score (0-100) aby wysłać powiadomienie
+
+criteria_file: "criteria_prompt.txt"
