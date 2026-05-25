@@ -64,8 +64,23 @@ window.GrandsAuth = {
   },
 
   async logout() {
-    await supa.auth.signOut();
-    location.reload();
+    try {
+      console.log('[auth.js] Logout started...');
+      if (!supa) {
+        console.error('[auth.js] ERROR: Supabase client not initialized');
+        return;
+      }
+      const { error } = await supa.auth.signOut();
+      if (error) {
+        console.error('[auth.js] Logout error:', error);
+      } else {
+        console.log('[auth.js] Logout successful, reloading...');
+      }
+      location.reload();
+    } catch (e) {
+      console.error('[auth.js] Fatal logout error:', e);
+      location.reload();
+    }
   }
 };
 
@@ -78,7 +93,7 @@ function renderLogin(gateEl, appEl) {
       <h1>Panel administracyjny</h1>
       <p class="muted">Zaloguj się aby zobaczyć dane.</p>
       <form id="login-form">
-        <input type="text" id="login-username" placeholder="admin" required autocomplete="username">
+        <input type="text" id="login-username" value="admin" required autocomplete="username">
         <input type="password" id="login-password" placeholder="hasło" required autocomplete="current-password">
         <button type="submit">Zaloguj</button>
       </form>
