@@ -224,14 +224,27 @@ let verdictFilter = 'ALL', scoreMin = 0, dateDays = 0, sortMode = 'score', searc
 let uiWired = false;
 
 function getImages(d) {
-  const rd = d.raw_data || {};
-  let imgs = rd.images || rd.imageUrls || rd.photos || [];
+  const rd = d.raw_listing || d.raw_data || {};
+  let imgs = d.image_urls || rd.image_urls || rd.images || rd.imageUrls || rd.photos || [];
   if (typeof imgs === 'string') { try { imgs = JSON.parse(imgs); } catch { imgs = [imgs]; } }
   return Array.isArray(imgs) ? imgs.filter(Boolean) : [];
 }
 function scoreClass(v){ if(v>=8)return'score-hot'; if(v>=6)return'score-warm'; if(v>=3)return'score-cold'; return'score-pass'; }
 function fmt(n){ return n ? Number(n).toLocaleString('pl-PL') : '—'; }
 function fmtDate(s){ if(!s)return'—'; return new Date(s).toLocaleDateString('pl-PL',{day:'2-digit',month:'short',year:'numeric'}); }
+function firstValue(d, keys) {
+  for (const k of keys) if (d[k] !== undefined && d[k] !== null) return d[k];
+  return undefined;
+}
+function offerScore(d){ return Number(firstValue(d, ['ai_score', 'score']) || 0); }
+function offerScoreText(d){ const v = firstValue(d, ['ai_score', 'score']); return v === undefined ? '—' : v; }
+function offerVerdict(d){ return String(firstValue(d, ['ai_verdict', 'verdict']) || 'COLD').toUpperCase(); }
+function offerPrice(d){ return Number(firstValue(d, ['price_pln', 'price']) || 0); }
+function offerPricePerSqm(d){ return Number(firstValue(d, ['price_per_sqm_pln', 'price_per_sqm']) || 0); }
+function offerDate(d){ return firstValue(d, ['created_at', 'evaluated_at']); }
+function offerCard(d){ return d.ai_card || d.evaluation?.card || {}; }
+function offerUrl(d){ return firstValue(d, ['offer_url', 'url']) || '#'; }
+function offerPlace(d){ return d.city || d.district || d.address?.city || d.address?.district || '—'; }
 
 async function fetchData(attempt = 1) {
   try {
@@ -239,7 +252,7 @@ async function fetchData(attempt = 1) {
     const token = await window.GrandsAuth.getAccessToken();
     console.log('[dashboard] token available:', !!token);
 
-    const r = await fetch(`${window.GrandsAuth.SUPABASE_URL}/rest/v1/plot_offers?select=*&order=score.desc.nullslast&limit=300`, {
+    const r = await fetch(`${window.GrandsAuth.SUPABASE_URL}/rest/v1/plot_offers?select=*&order=ai_score.desc.nullslast&limit=300`, {
       headers: {
         'apikey': window.GrandsAuth.SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${token || window.GrandsAuth.SUPABASE_ANON_KEY}`
@@ -268,27 +281,27 @@ async function fetchData(attempt = 1) {
 function apply() {
   const now = Date.now();
   view = allData.filter(d => {
-    if (verdictFilter !== 'ALL' && d.verdict !== verdictFilter) return false;
-    if ((d.score||0) < scoreMin) return false;
+    if (verdictFilter !== 'ALL' && offerVerdict(d) !== verdictFilter) return false;
+    if (offerScore(d) < scoreMin) return false;
     if (dateDays > 0) {
-      const t = d.evaluated_at ? new Date(d.evaluated_at).getTime() : 0;
+      const t = offerDate(d) ? new Date(offerDate(d)).getTime() : 0;
       if (now - t > dateDays * 86400000) return false;
     }
-    if (searchQ) { const q = searchQ.toLowerCase(); if (!(d.title||'').toLowerCase().includes(q) && !(d.city||'').toLowerCase().includes(q)) return false; }
+    if (searchQ) { const q = searchQ.toLowerCase(); if (!(d.title||'').toLowerCase().includes(q) && !offerPlace(d).toLowerCase().includes(q)) return false; }
     return true;
   });
   view.sort((a,b) => {
     switch(sortMode) {
-      case 'score': return (b.score||0)-(a.score||0);
-      case 'score_asc': return (a.score||0)-(b.score||0);
-      case 'date': return new Date(b.evaluated_at||0)-new Date(a.evaluated_at||0);
-      case 'date_asc': return new Date(a.evaluated_at||0)-new Date(b.evaluated_at||0);
-      case 'price': return (b.price||0)-(a.price||0);
-      case 'price_asc': return (a.price||0)-(b.price||0);
+      case 'score': return offerScore(b)-offerScore(a);
+      case 'score_asc': return offerScore(a)-offerScore(b);
+      case 'date': return new Date(offerDate(b)||0)-new Date(offerDate(a)||0);
+      case 'date_asc': return new Date(offerDate(a)||0)-new Date(offerDate(b)||0);
+      case 'price': return offerPrice(b)-offerPrice(a);
+      case 'price_asc': return offerPrice(a)-offerPrice(b);
     }
   });
   document.getElementById('stat-total').textContent = allData.length;
-  document.getElementById('stat-hot').textContent = allData.filter(d => d.verdict==='HOT'||d.verdict==='WARM').length;
+  document.getElementById('stat-hot').textContent = allData.filter(d => offerVerdict(d)==='HOT'||offerVerdict(d)==='WARM').length;
   render();
 }
 
@@ -299,22 +312,24 @@ function render() {
   // Build HTML string once, then insert all at once (much faster than appendChild loop)
   const html = view.map((d, idx) => {
     const imgs = getImages(d);
+    const score = offerScore(d);
+    const verdict = offerVerdict(d);
     const thumb = imgs.length ? `<img src="${imgs[0]}" alt="" onerror="this.parentNode.innerHTML='<div class=\\'no-img\\'>🏞</div>'">` : `<div class="no-img">🏞</div>`;
     return `
       <div class="offer-card" data-index="${idx}">
         <div class="offer-thumb">
           ${thumb}
-          <div class="score-tag ${scoreClass(d.score||0)}">${d.score||'—'}</div>
-          <div class="verdict-tag v-${d.verdict||'COLD'}">${d.verdict||'—'}</div>
+          <div class="score-tag ${scoreClass(score)}">${offerScoreText(d)}</div>
+          <div class="verdict-tag v-${verdict}">${verdict}</div>
         </div>
         <div class="offer-body">
           <div class="offer-title">${d.title||'Bez tytułu'}</div>
-          <div class="offer-loc">📍 ${d.city||'—'}</div>
+          <div class="offer-loc">📍 ${offerPlace(d)}</div>
           <div class="offer-price">
-            <span class="p">${fmt(d.price)} zł</span>
-            <span class="ppm">${fmt(d.price_per_sqm)} zł/m²</span>
+            <span class="p">${fmt(offerPrice(d))} zł</span>
+            <span class="ppm">${fmt(offerPricePerSqm(d))} zł/m²</span>
           </div>
-          <div class="offer-date">Oceniono: ${fmtDate(d.evaluated_at)}</div>
+          <div class="offer-date">Oceniono: ${fmtDate(offerDate(d))}</div>
         </div>
       </div>`;
   }).join('');
@@ -328,7 +343,7 @@ function render() {
 }
 
 function openModal(d) {
-  const card = d.evaluation?.card || {};
+  const card = offerCard(d);
   const imgs = getImages(d);
   const gallery = imgs.length
     ? `<div class="gallery">${imgs.slice(0,3).map(u => `<img src="${u}" onerror="this.style.display='none'">`).join('')}</div>`
@@ -347,21 +362,21 @@ function openModal(d) {
       ${gallery}
       <div class="modal-heading">
         <div class="statusbar">
-          <span class="pill v-${d.verdict||'COLD'}">${d.verdict||'—'}</span>
-          <span class="score-big"><span class="n">${d.score||'—'}</span><span class="d">/10</span></span>
+          <span class="pill v-${offerVerdict(d)}">${offerVerdict(d)}</span>
+          <span class="score-big"><span class="n">${offerScoreText(d)}</span><span class="d">/10</span></span>
         </div>
         <h2>${d.title||'Bez tytułu'}</h2>
-        <div class="loc">📍 ${d.city||'—'} · ${d.seller_type==='agency'?'agencja':'prywatny'}</div>
+        <div class="loc">📍 ${offerPlace(d)} · ${d.source_portal||'—'}</div>
       </div>
     </div>
     <div class="modal-facts">
-      <div class="fact"><div class="lab">Cena</div><div class="val">${fmt(d.price)} zł</div></div>
+      <div class="fact"><div class="lab">Cena</div><div class="val">${fmt(offerPrice(d))} zł</div></div>
       <div class="fact"><div class="lab">Powierzchnia</div><div class="val">${fmt(d.area_sqm)} m²</div></div>
-      <div class="fact"><div class="lab">Cena/m²</div><div class="val">${fmt(d.price_per_sqm)} zł</div></div>
+      <div class="fact"><div class="lab">Cena/m²</div><div class="val">${fmt(offerPricePerSqm(d))} zł</div></div>
     </div>
     <div class="modal-body">
       ${card.preliminary_thesis_pl ? `<div class="modal-section"><h4>Wstępna teza</h4><p class="thesis">${card.preliminary_thesis_pl}</p></div>` : ''}
-      ${card.summary_pl ? `<div class="modal-section"><h4>Podsumowanie</h4><p class="summary-text">${card.summary_pl}</p></div>` : ''}
+      ${(card.summary_pl || d.ai_summary_pl) ? `<div class="modal-section"><h4>Podsumowanie</h4><p class="summary-text">${card.summary_pl || d.ai_summary_pl}</p></div>` : ''}
       ${checklist ? `<div class="modal-section"><h4>Checklista analityczna</h4><ul class="checklist">${checklist}</ul></div>` : ''}
       ${(strengths||risks) ? `<div class="modal-section"><div class="two-col">
         ${strengths?`<div><h4>Mocne strony</h4><ul class="mini-list str">${strengths}</ul></div>`:''}
@@ -370,8 +385,8 @@ function openModal(d) {
       ${questions ? `<div class="modal-section"><h4>Pytania do sprzedającego</h4><ul class="q-list">${questions}</ul></div>` : ''}
     </div>
     <div class="modal-footer">
-      <a href="${d.url||'#'}" target="_blank" class="link-main">🔗 Otwórz ogłoszenie</a>
-      <span class="footer-meta">Oceniono: ${fmtDate(d.evaluated_at)}</span>
+      <a href="${offerUrl(d)}" target="_blank" class="link-main">🔗 Otwórz ogłoszenie</a>
+      <span class="footer-meta">Oceniono: ${fmtDate(offerDate(d))}</span>
     </div>`;
   document.getElementById('overlay').classList.add('show');
   document.body.style.overflow = 'hidden';
