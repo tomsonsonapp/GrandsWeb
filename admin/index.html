@@ -165,7 +165,7 @@ body { font-family: 'Spline Sans', sans-serif; background: var(--paper); color: 
     <div class="stats">
       <div class="stat"><div class="n" id="stat-total">—</div><div class="l">ofert</div></div>
       <div class="stat"><div class="n" id="stat-hot">—</div><div class="l">HOT/WARM</div></div>
-      <button class="logout-btn" id="logout-btn">Wyloguj</button>
+      <button class="logout-btn" id="logout-btn" onclick="window.GrandsAuth && window.GrandsAuth.logout()">Wyloguj</button>
     </div>
   </div>
 
@@ -370,7 +370,6 @@ function wireUI() {
   document.getElementById('score-filter').addEventListener('change', e => { scoreMin = +e.target.value; apply(); });
   document.getElementById('date-filter').addEventListener('change', e => { dateDays = +e.target.value; apply(); });
   document.getElementById('sort-select').addEventListener('change', e => { sortMode = e.target.value; apply(); });
-  document.getElementById('logout-btn').addEventListener('click', () => window.GrandsAuth.logout());
 }
 
 (async function init() {
