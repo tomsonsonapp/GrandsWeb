@@ -68,18 +68,27 @@ window.GrandsAuth = {
       console.log('[auth.js] Logout started...');
       if (!supa) {
         console.error('[auth.js] ERROR: Supabase client not initialized');
+        location.href = '/';
         return;
       }
+      // Set timeout to redirect after 1.5s if signOut takes too long
+      const timeoutId = setTimeout(() => {
+        console.log('[auth.js] Logout timeout - redirecting anyway');
+        location.href = '/';
+      }, 1500);
+
       const { error } = await supa.auth.signOut();
+      clearTimeout(timeoutId);
+
       if (error) {
         console.error('[auth.js] Logout error:', error);
       } else {
-        console.log('[auth.js] Logout successful, reloading...');
+        console.log('[auth.js] Logout successful, redirecting home...');
       }
-      location.reload();
+      location.href = '/';
     } catch (e) {
       console.error('[auth.js] Fatal logout error:', e);
-      location.reload();
+      location.href = '/';
     }
   }
 };
