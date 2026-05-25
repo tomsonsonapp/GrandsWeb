@@ -406,13 +406,14 @@ function wireUI() {
   try {
     const user = await window.GrandsAuth.requireAdmin({
       gateEl: document.getElementById('auth-gate'),
-      appEl: document.getElementById('app')
+      appEl: document.getElementById('app'),
+      onSuccess: fetchData
     });
     if (!user) return;
     console.log('[dashboard] User authenticated, initializing...');
     wireUI();
-    // Small delay to ensure token is available, fetchData will retry if needed
-    setTimeout(() => fetchData(), 100);
+    // Fetch data is called directly from auth.js onSuccess callback
+    console.log('[dashboard] Waiting for onSuccess callback to fetch data...');
   } catch (e) {
     console.error('Init error:', e);
     document.getElementById('auth-gate').innerHTML = '<div class="auth-card"><p style="color:red">Błąd: ' + e.message + '</p></div>';

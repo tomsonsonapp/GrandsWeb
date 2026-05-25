@@ -37,7 +37,9 @@ window.GrandsAuth = {
     return session?.access_token || null;
   },
 
-  async requireAdmin({ gateEl, appEl }) {
+  async requireAdmin({ gateEl, appEl, onSuccess }) {
+    let loginHandled = false;
+
     const check = async () => {
       const { data: { session } } = await supa.auth.getSession();
       if (!session) { renderLogin(gateEl, appEl); return null; }
@@ -49,6 +51,14 @@ window.GrandsAuth = {
       gateEl.style.display = 'none';
       appEl.hidden = false;
       appEl.style.display = '';
+
+      // Call success callback once when user logs in
+      if (!loginHandled && onSuccess) {
+        loginHandled = true;
+        console.log('[auth.js] Admin access confirmed, calling onSuccess callback');
+        onSuccess();
+      }
+
       return session.user;
     };
 
