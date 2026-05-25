@@ -75,23 +75,25 @@ window.GrandsAuth = {
 
   async logout() {
     console.log('[auth.js] Logout started...');
-    // Redirect immediately - signOut happens in background
-    location.href = '/';
-
-    // Perform signOut asynchronously without waiting
     try {
       if (!supa) {
         console.error('[auth.js] ERROR: Supabase client not initialized');
+        location.href = '/';
         return;
       }
+
+      // Wait for signOut to complete (usually <100ms) to ensure session is cleared from localStorage
       const { error } = await supa.auth.signOut();
       if (error) {
         console.error('[auth.js] Logout error:', error);
       } else {
-        console.log('[auth.js] Logout successful');
+        console.log('[auth.js] Logout successful, session cleared');
       }
     } catch (e) {
       console.error('[auth.js] Fatal logout error:', e);
+    } finally {
+      // Redirect after signOut completes
+      location.href = '/';
     }
   }
 };
