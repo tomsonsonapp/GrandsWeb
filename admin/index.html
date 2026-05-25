@@ -279,29 +279,35 @@ function apply() {
 function render() {
   const grid = document.getElementById('grid');
   if (!view.length) { grid.innerHTML = `<div class="state-block">Brak ofert spełniających kryteria.</div>`; return; }
-  grid.innerHTML = '';
-  view.forEach(d => {
+
+  // Build HTML string once, then insert all at once (much faster than appendChild loop)
+  const html = view.map((d, idx) => {
     const imgs = getImages(d);
     const thumb = imgs.length ? `<img src="${imgs[0]}" alt="" onerror="this.parentNode.innerHTML='<div class=\\'no-img\\'>🏞</div>'">` : `<div class="no-img">🏞</div>`;
-    const card = document.createElement('div');
-    card.className = 'offer-card';
-    card.innerHTML = `
-      <div class="offer-thumb">
-        ${thumb}
-        <div class="score-tag ${scoreClass(d.score||0)}">${d.score||'—'}</div>
-        <div class="verdict-tag v-${d.verdict||'COLD'}">${d.verdict||'—'}</div>
-      </div>
-      <div class="offer-body">
-        <div class="offer-title">${d.title||'Bez tytułu'}</div>
-        <div class="offer-loc">📍 ${d.city||'—'}</div>
-        <div class="offer-price">
-          <span class="p">${fmt(d.price)} zł</span>
-          <span class="ppm">${fmt(d.price_per_sqm)} zł/m²</span>
+    return `
+      <div class="offer-card" data-index="${idx}">
+        <div class="offer-thumb">
+          ${thumb}
+          <div class="score-tag ${scoreClass(d.score||0)}">${d.score||'—'}</div>
+          <div class="verdict-tag v-${d.verdict||'COLD'}">${d.verdict||'—'}</div>
         </div>
-        <div class="offer-date">Oceniono: ${fmtDate(d.evaluated_at)}</div>
+        <div class="offer-body">
+          <div class="offer-title">${d.title||'Bez tytułu'}</div>
+          <div class="offer-loc">📍 ${d.city||'—'}</div>
+          <div class="offer-price">
+            <span class="p">${fmt(d.price)} zł</span>
+            <span class="ppm">${fmt(d.price_per_sqm)} zł/m²</span>
+          </div>
+          <div class="offer-date">Oceniono: ${fmtDate(d.evaluated_at)}</div>
+        </div>
       </div>`;
-    card.addEventListener('click', () => openModal(d));
-    grid.appendChild(card);
+  }).join('');
+
+  grid.innerHTML = html;
+
+  // Add click handlers using event delegation (one listener on grid)
+  grid.querySelectorAll('.offer-card').forEach(card => {
+    card.addEventListener('click', () => openModal(view[parseInt(card.dataset.index)]));
   });
 }
 
