@@ -239,7 +239,7 @@ async function fetchData(attempt = 1) {
     const token = await window.GrandsAuth.getAccessToken();
     console.log('[dashboard] token available:', !!token);
 
-    const r = await fetch(`${window.GrandsAuth.SUPABASE_URL}/rest/v1/dzialki_listings?select=*&order=score.desc.nullslast&limit=300`, {
+    const r = await fetch(`${window.GrandsAuth.SUPABASE_URL}/rest/v1/plot_offers?select=*&order=score.desc.nullslast&limit=300`, {
       headers: {
         'apikey': window.GrandsAuth.SUPABASE_ANON_KEY,
         'Authorization': `Bearer ${token || window.GrandsAuth.SUPABASE_ANON_KEY}`
