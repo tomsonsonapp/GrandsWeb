@@ -224,26 +224,21 @@ let verdictFilter = 'ALL', scoreMin = 0, dateDays = 0, sortMode = 'score', searc
 let uiWired = false;
 
 function getImages(d) {
-  const rd = d.raw_listing || d.raw_data || {};
-  let imgs = d.image_urls || rd.image_urls || rd.images || rd.imageUrls || rd.photos || [];
+  let imgs = d.image_urls || [];
   if (typeof imgs === 'string') { try { imgs = JSON.parse(imgs); } catch { imgs = [imgs]; } }
   return Array.isArray(imgs) ? imgs.filter(Boolean) : [];
 }
 function scoreClass(v){ if(v>=8)return'score-hot'; if(v>=6)return'score-warm'; if(v>=3)return'score-cold'; return'score-pass'; }
 function fmt(n){ return n ? Number(n).toLocaleString('pl-PL') : '—'; }
 function fmtDate(s){ if(!s)return'—'; return new Date(s).toLocaleDateString('pl-PL',{day:'2-digit',month:'short',year:'numeric'}); }
-function firstValue(d, keys) {
-  for (const k of keys) if (d[k] !== undefined && d[k] !== null) return d[k];
-  return undefined;
-}
-function offerScore(d){ return Number(firstValue(d, ['ai_score', 'score']) || 0); }
-function offerScoreText(d){ const v = firstValue(d, ['ai_score', 'score']); return v === undefined ? '—' : v; }
-function offerVerdict(d){ return String(firstValue(d, ['ai_verdict', 'verdict']) || 'COLD').toUpperCase(); }
-function offerPrice(d){ return Number(firstValue(d, ['price_pln', 'price']) || 0); }
-function offerPricePerSqm(d){ return Number(firstValue(d, ['price_per_sqm_pln', 'price_per_sqm']) || 0); }
-function offerDate(d){ return firstValue(d, ['created_at', 'evaluated_at']); }
-function offerCard(d){ return d.ai_card || d.evaluation?.card || {}; }
-function offerUrl(d){ return firstValue(d, ['offer_url', 'url']) || '#'; }
+function offerScore(d){ return Number(d.ai_score || 0); }
+function offerScoreText(d){ return d.ai_score === undefined || d.ai_score === null ? '—' : d.ai_score; }
+function offerVerdict(d){ return String(d.ai_verdict || 'COLD').toUpperCase(); }
+function offerPrice(d){ return Number(d.price_pln || 0); }
+function offerPricePerSqm(d){ return Number(d.price_per_sqm_pln || 0); }
+function offerDate(d){ return d.created_at; }
+function offerCard(d){ return d.ai_card || {}; }
+function offerUrl(d){ return d.offer_url || '#'; }
 function offerPlace(d){ return d.city || d.district || d.address?.city || d.address?.district || '—'; }
 
 async function fetchData(attempt = 1) {
