@@ -78,7 +78,7 @@ function renderLogin(gateEl, appEl) {
       <h1>Panel administracyjny</h1>
       <p class="muted">Zaloguj się aby zobaczyć dane.</p>
       <form id="login-form">
-        <input type="text" id="login-email" placeholder="admin" required autocomplete="username">
+        <input type="text" id="login-username" placeholder="admin" required autocomplete="username">
         <input type="password" id="login-password" placeholder="hasło" required autocomplete="current-password">
         <button type="submit">Zaloguj</button>
       </form>
@@ -86,10 +86,12 @@ function renderLogin(gateEl, appEl) {
     </div>`;
   gateEl.querySelector('#login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = gateEl.querySelector('#login-email').value.trim();
+    const username = gateEl.querySelector('#login-username').value.trim();
     const password = gateEl.querySelector('#login-password').value;
     const msg = gateEl.querySelector('#login-msg');
     msg.textContent = 'Logowanie…';
+    // Convert username to email by appending @grands.local
+    const email = username.includes('@') ? username : `${username}@grands.local`;
     const { error } = await supa.auth.signInWithPassword({ email, password });
     if (error) {
       msg.textContent = `Błąd: ${error.message}`;
